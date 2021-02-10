@@ -1,4 +1,4 @@
-﻿@model WebApplication5.Models.MyapiMenuProduct
+﻿@model WebApplication5.Models.MyapiProductsinorder
 
 @{
     ViewData["Title"] = "Create";
@@ -6,15 +6,20 @@
 
 <h1>Create</h1>
 
-<h4>MyapiMenuProduct</h4>
+<h4>MyapiProductsinorder</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="MenuId" class="control-label"></label>
-                <select asp-for="MenuId" class ="form-control" asp-items="ViewBag.MenuId"></select>
+                <label asp-for="ProductCount" class="control-label"></label>
+                <input asp-for="ProductCount" class="form-control" />
+                <span asp-validation-for="ProductCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderId" class="control-label"></label>
+                <select asp-for="OrderId" class ="form-control" asp-items="ViewBag.OrderId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="ProductId" class="control-label"></label>

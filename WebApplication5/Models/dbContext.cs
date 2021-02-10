@@ -35,6 +35,8 @@ namespace WebApplication5.Models
         public virtual DbSet<MyapiCustomerGroup> MyapiCustomerGroups { get; set; }
         public virtual DbSet<MyapiCustomerUserPermission> MyapiCustomerUserPermissions { get; set; }
         public virtual DbSet<MyapiMenu> MyapiMenus { get; set; }
+
+        public virtual DbSet<RestaurantOwner> RestaurantOwners { get; set; }
         public virtual DbSet<MyapiMenuProduct> MyapiMenuProducts { get; set; }
         public virtual DbSet<MyapiOrder> MyapiOrders { get; set; }
         public virtual DbSet<MyapiOrderOrderedProduct> MyapiOrderOrderedProducts { get; set; }
@@ -662,7 +664,22 @@ namespace WebApplication5.Models
                     .HasForeignKey<MyapiMenu>(d => d.RestaurantId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
+            modelBuilder.Entity<RestaurantOwner>(entity =>
+            {
+                entity.HasKey(e => e.RestaurantId);
 
+                entity.ToTable("myapi_restaurantowner");
+
+                entity.Property(e => e.RestaurantId)
+                    .HasColumnType("integer")
+                    .ValueGeneratedNever()
+                    .HasColumnName("restaurant_id");
+
+                entity.HasOne(d => d.Restaurant)
+                    .WithOne(p => p.RestaurantOwner)
+                    .HasForeignKey<RestaurantOwner>(d => d.RestaurantId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+            });
             modelBuilder.Entity<MyapiMenuProduct>(entity =>
             {
                 entity.ToTable("myapi_menu_products");
@@ -736,6 +753,10 @@ namespace WebApplication5.Models
                 entity.Property(e => e.RestaurantId)
                     .HasColumnType("integer")
                     .HasColumnName("restaurant_id");
+
+                entity.Property(e => e.Status)
+                  .HasColumnType("varchar(10)")
+                  .HasColumnName("status");
 
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.MyapiOrders)

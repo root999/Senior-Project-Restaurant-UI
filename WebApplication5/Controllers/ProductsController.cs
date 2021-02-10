@@ -9,23 +9,22 @@ using WebApplication5.Models;
 
 namespace WebApplication5.Controllers
 {
-    public class MyapiMenusController : Controller
+    public class ProductsController : Controller
     {
         private readonly dbContext _context;
 
-        public MyapiMenusController(dbContext context)
+        public ProductsController(dbContext context)
         {
             _context = context;
         }
 
-        // GET: MyapiMenus
+        // GET: Products
         public async Task<IActionResult> Index()
         {
-            var dbContext = _context.MyapiMenus.Include(m => m.Restaurant);
-            return View(await dbContext.ToListAsync());
+            return View(await _context.MyapiProducts.ToListAsync());
         }
 
-        // GET: MyapiMenus/Details/5
+        // GET: Products/Details/5
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -33,42 +32,39 @@ namespace WebApplication5.Controllers
                 return NotFound();
             }
 
-            var myapiMenu = await _context.MyapiMenus
-                .Include(m => m.Restaurant)
-                .FirstOrDefaultAsync(m => m.RestaurantId == id);
-            if (myapiMenu == null)
+            var myapiProduct = await _context.MyapiProducts
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (myapiProduct == null)
             {
                 return NotFound();
             }
 
-            return View(myapiMenu);
+            return View(myapiProduct);
         }
 
-        // GET: MyapiMenus/Create
+        // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["RestaurantId"] = new SelectList(_context.MyapiRestaurants, "Id", "Address");
             return View();
         }
 
-        // POST: MyapiMenus/Create
+        // POST: Products/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RestaurantId")] MyapiMenu myapiMenu)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,PhotoUrl,Category,Details")] MyapiProduct myapiProduct)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(myapiMenu);
+                _context.Add(myapiProduct);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RestaurantId"] = new SelectList(_context.MyapiRestaurants, "Id", "Address", myapiMenu.RestaurantId);
-            return View(myapiMenu);
+            return View(myapiProduct);
         }
 
-        // GET: MyapiMenus/Edit/5
+        // GET: Products/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -76,23 +72,22 @@ namespace WebApplication5.Controllers
                 return NotFound();
             }
 
-            var myapiMenu = await _context.MyapiMenus.FindAsync(id);
-            if (myapiMenu == null)
+            var myapiProduct = await _context.MyapiProducts.FindAsync(id);
+            if (myapiProduct == null)
             {
                 return NotFound();
             }
-            ViewData["RestaurantId"] = new SelectList(_context.MyapiRestaurants, "Id", "Address", myapiMenu.RestaurantId);
-            return View(myapiMenu);
+            return View(myapiProduct);
         }
 
-        // POST: MyapiMenus/Edit/5
+        // POST: Products/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("RestaurantId")] MyapiMenu myapiMenu)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Price,PhotoUrl,Category,Details")] MyapiProduct myapiProduct)
         {
-            if (id != myapiMenu.RestaurantId)
+            if (id != myapiProduct.Id)
             {
                 return NotFound();
             }
@@ -101,12 +96,12 @@ namespace WebApplication5.Controllers
             {
                 try
                 {
-                    _context.Update(myapiMenu);
+                    _context.Update(myapiProduct);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MyapiMenuExists(myapiMenu.RestaurantId))
+                    if (!MyapiProductExists(myapiProduct.Id))
                     {
                         return NotFound();
                     }
@@ -117,11 +112,10 @@ namespace WebApplication5.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RestaurantId"] = new SelectList(_context.MyapiRestaurants, "Id", "Address", myapiMenu.RestaurantId);
-            return View(myapiMenu);
+            return View(myapiProduct);
         }
 
-        // GET: MyapiMenus/Delete/5
+        // GET: Products/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -129,31 +123,30 @@ namespace WebApplication5.Controllers
                 return NotFound();
             }
 
-            var myapiMenu = await _context.MyapiMenus
-                .Include(m => m.Restaurant)
-                .FirstOrDefaultAsync(m => m.RestaurantId == id);
-            if (myapiMenu == null)
+            var myapiProduct = await _context.MyapiProducts
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (myapiProduct == null)
             {
                 return NotFound();
             }
 
-            return View(myapiMenu);
+            return View(myapiProduct);
         }
 
-        // POST: MyapiMenus/Delete/5
+        // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var myapiMenu = await _context.MyapiMenus.FindAsync(id);
-            _context.MyapiMenus.Remove(myapiMenu);
+            var myapiProduct = await _context.MyapiProducts.FindAsync(id);
+            _context.MyapiProducts.Remove(myapiProduct);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MyapiMenuExists(long id)
+        private bool MyapiProductExists(long id)
         {
-            return _context.MyapiMenus.Any(e => e.RestaurantId == id);
+            return _context.MyapiProducts.Any(e => e.Id == id);
         }
     }
 }

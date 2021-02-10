@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebApplication5.Models.MyapiMenuProduct>
+﻿@model IEnumerable<WebApplication5.Models.MyapiProductsinorder>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,7 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Menu)
+                @Html.DisplayNameFor(model => model.ProductCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Product)
@@ -25,7 +28,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Menu.RestaurantId)
+                @Html.DisplayFor(modelItem => item.ProductCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Product.Category)

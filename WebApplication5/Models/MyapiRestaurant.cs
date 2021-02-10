@@ -18,6 +18,7 @@ namespace WebApplication5.Models
         public string LogoUrl { get; set; }
 
         public virtual MyapiMenu MyapiMenu { get; set; }
+            public virtual RestaurantOwner RestaurantOwner { get; set; }
         public virtual ICollection<MyapiOrder> MyapiOrders { get; set; }
     }
 }
