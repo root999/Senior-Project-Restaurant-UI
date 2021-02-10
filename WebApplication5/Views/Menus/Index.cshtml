@@ -1,0 +1,40 @@
+﻿@model IEnumerable<WebApplication5.Models.MyapiMenu>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Menü</h1>
+
+<p>
+    <a asp-action="Create">Yeni Ürün Ekle</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Ürünler
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @foreach (var menuitem in item.MyapiMenuProducts)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => menuitem.Product.Name)
+                    </td>
+                    <td>
+                        <a  asp-controller="Products" asp-action="Edit" asp-route-id="@menuitem.Product.Id">Edit</a> |
+                        <a asp-controller="Products" asp-action="Details" asp-route-id="@menuitem.Product.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@menuitem.Product.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>

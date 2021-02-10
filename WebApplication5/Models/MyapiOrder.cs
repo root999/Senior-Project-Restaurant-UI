@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace WebApplication5.Models
 {
+   
     public partial class MyapiOrder
     {
         public MyapiOrder()
@@ -14,13 +15,13 @@ namespace WebApplication5.Models
         }
 
         public long Id { get; set; }
-        public byte[] IssueTime { get; set; }
+        public DateTime IssueTime { get; set; }
         public long CustomerId { get; set; }
         public long RestaurantId { get; set; }
-        public byte[] IssueDate { get; set; }
-        public byte[] PlannedTime { get; set; }
-        public byte[] PlannedDate { get; set; }
-
+        public DateTime IssueDate { get; set; }
+        public DateTime PlannedTime { get; set; }
+        public DateTime PlannedDate { get; set; }
+        public String Status { get; set; }
         public virtual MyapiCustomer Customer { get; set; }
         public virtual MyapiRestaurant Restaurant { get; set; }
         public virtual ICollection<MyapiOrderOrderedProduct> MyapiOrderOrderedProducts { get; set; }
